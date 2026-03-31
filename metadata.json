@@ -1,0 +1,8 @@
+{
+  "name": "eCornell: Javascript Web Coach Hint Extension Coach",
+  "type": "helper",
+  "properties": {
+    "user_type": "all",
+    "component": "all"
+  }
+}
