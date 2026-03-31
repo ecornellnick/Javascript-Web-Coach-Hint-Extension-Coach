@@ -1,0 +1,210 @@
+{
+  "context_type": "file_project",
+  "purpose": "Environment-specific guidance for locating JavaScript/web exercise task units and determining NOT_STARTED vs HAS_ATTEMPTED across file-based Codio projects.",
+  "task_detection": {
+    "primary_boundaries": [
+      "explicit editable markers such as // YOUR CODE STARTS HERE / // YOUR CODE ENDS HERE",
+      "TODO blocks or numbered TODO comments",
+      "clearly incomplete functions, event listeners, handlers, or initialization steps",
+      "assessment-opened files and guide instructions",
+      "instructor-reference solution structure"
+    ],
+    "file_selection_rule": "Do not assume the student always edits exercise_files/scripts/interactivity.js. Use assessment-opened files, editable files, and guide instructions to determine the relevant student work files.",
+    "freeze_rule": "Code inside FREEZE / PROVIDED regions is not student work unless the instructions clearly indicate that the student should modify it.",
+    "nested_todo_rule": "If multiple TODO comments appear inside one function and are tightly coupled, treat the function region as one task with substeps. If the TODOs are independent, split them into separate tasks.",
+    "no_marker_fallback": "If explicit markers are missing, infer task regions from the opened/editable files, guide instructions, and instructor-reference structure."
+  },
+  "task_families": [
+    {
+      "name": "basic_syntax_and_expressions",
+      "examples": [
+        "set text content",
+        "assign a computed value",
+        "write a simple expression"
+      ]
+    },
+    {
+      "name": "conditionals_and_boolean_logic",
+      "examples": [
+        "single if-else statement",
+        "boolean combination with && or ||",
+        "branching behavior based on form inputs"
+      ]
+    },
+    {
+      "name": "arrays_loops_and_iteration",
+      "examples": [
+        "construct an array of image paths",
+        "iterate over an array to generate DOM elements",
+        "compute next/previous item in an array"
+      ]
+    },
+    {
+      "name": "functions_scope_and_state",
+      "examples": [
+        "define helper functions",
+        "return next or previous image",
+        "track current state in variables",
+        "manage localStorage state"
+      ]
+    },
+    {
+      "name": "dom_selection_and_update",
+      "examples": [
+        "target an element by id",
+        "set text content",
+        "set attributes like src, alt, class",
+        "append created elements"
+      ]
+    },
+    {
+      "name": "event_handling_and_user_interaction",
+      "examples": [
+        "button click handler",
+        "form submit handler",
+        "change handler for a select element",
+        "thumbnail click handler"
+      ]
+    },
+    {
+      "name": "timer_state_and_animation",
+      "examples": [
+        "setInterval / clearInterval",
+        "hide or reveal items over time",
+        "reset state at animation end"
+      ]
+    },
+    {
+      "name": "async_fetch_and_redraw",
+      "examples": [
+        "fetch a URL",
+        "parse response.json()",
+        "clear and redraw UI from returned data"
+      ]
+    },
+    {
+      "name": "rendering_and_visualization",
+      "examples": [
+        "D3 scales",
+        "binding data to elements",
+        "creating bars or chart elements"
+      ]
+    }
+  ],
+  "work_zone_rules": {
+    "explicit_markers": [
+      "// YOUR CODE STARTS HERE ... // YOUR CODE ENDS HERE",
+      "// TODO",
+      "TODO 1:",
+      "TODO 2:",
+      "Step 1:",
+      "Step 2:"
+    ],
+    "fallback_rule": "If explicit markers are missing, infer the student's work zone from the incomplete region in the editable file, guide instructions, and the instructor reference.",
+    "student_work_outside_zone": "If the student writes real solution code outside the expected region but it is clearly meant to solve the task, count it as HAS_ATTEMPTED and note that in notes."
+  },
+  "status_rules": {
+    "has_attempted": [
+      "one meaningful assignment or expression",
+      "an if statement or boolean condition",
+      "a loop or partial loop structure",
+      "an event listener registration",
+      "a DOM query or DOM update",
+      "a function body with real logic",
+      "a fetch call or promise chain",
+      "a one-line implementation such as setting text, attaching a listener, or returning a computed value"
+    ],
+    "not_started": [
+      "blank TODO region",
+      "placeholder comments only",
+      "commented-out formulas only",
+      "commented-out code only",
+      "debugging output only, with no task logic"
+    ],
+    "special_cases": [
+      "Partial code that would not run yet still counts as HAS_ATTEMPTED if it is clearly real implementation.",
+      "Comment-only edits do not count as an attempt.",
+      "One meaningful executable line is enough to count as HAS_ATTEMPTED."
+    ]
+  },
+  "examples": [
+    {
+      "label": "event_listener_attempt",
+      "status": "HAS_ATTEMPTED",
+      "code": "button.addEventListener(\"click\", function () {",
+      "why": "A partial event-listener implementation is a real attempt."
+    },
+    {
+      "label": "comment_only_not_started",
+      "status": "NOT_STARTED",
+      "code": "// TODO 2\n// fetch(url)\n// update the page",
+      "why": "Comment-only edits do not count as implementation."
+    },
+    {
+      "label": "conditional_attempt",
+      "status": "HAS_ATTEMPTED",
+      "code": "if (hotel || rush) {",
+      "why": "A real conditional expression is enough to show the student has started."
+    },
+    {
+      "label": "dom_update_attempt",
+      "status": "HAS_ATTEMPTED",
+      "code": "document.getElementById(\"estimated-tax\").innerText = \"TODO: Tax\";",
+      "why": "A one-line DOM update is real task logic."
+    },
+    {
+      "label": "array_iteration_attempt",
+      "status": "HAS_ATTEMPTED",
+      "code": "for (let path of imagePaths) {",
+      "why": "A loop to generate or process items is real implementation."
+    },
+    {
+      "label": "function_stub_not_started",
+      "status": "NOT_STARTED",
+      "code": "function nextImage(current, images) {\n\n}",
+      "why": "An empty function body without logic is not started."
+    },
+    {
+      "label": "function_attempt",
+      "status": "HAS_ATTEMPTED",
+      "code": "function nextImage(current, images) {\n  return images[0];\n}",
+      "why": "Even a wrong return statement is still implementation."
+    },
+    {
+      "label": "timer_attempt",
+      "status": "HAS_ATTEMPTED",
+      "code": "interval = setInterval(function () {",
+      "why": "Starting the timer logic counts as a real attempt."
+    },
+    {
+      "label": "fetch_attempt",
+      "status": "HAS_ATTEMPTED",
+      "code": "fetch(url).then(function (response) { return response.json(); })",
+      "why": "A fetch and parse chain is meaningful implementation."
+    }
+  ],
+  "course_pattern_notes": [
+    "CIS561 includes introductory DOM/event-listener and text-content update tasks.",
+    "CIS562 includes conditionals, boolean logic, and form-driven branching tasks.",
+    "CIS563 includes arrays, loops, DOM creation, and gallery interaction tasks.",
+    "CIS564 includes helper functions, localStorage, scope, and next/previous navigation tasks.",
+    "CIS565 includes D3 rendering, timer-based animation, and async fetch/redraw tasks."
+  ],
+  "output_mapping_hints": {
+    "type": "file_region",
+    "location_guidance": "Use file path plus line hints when reasonably inferable. If exact lines are unclear, approximate the task region around the relevant TODO or incomplete function.",
+    "evidence_signals": [
+      "contains_assignment",
+      "contains_conditionals",
+      "contains_loop",
+      "contains_function_logic",
+      "contains_event_listener",
+      "contains_dom_update",
+      "contains_fetch",
+      "contains_timer_logic",
+      "placeholder_only",
+      "comment_only",
+      "code_outside_expected_region"
+    ]
+  }
+}
